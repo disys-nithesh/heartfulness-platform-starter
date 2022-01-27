@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<Appenders>
+    <RollingRandomAccessFile name="APPLICATION" filename = "profileService.log"
+                             filePattern="$profileService.log.%d{yyyy-MM-dd-HH}" append="true" >
+        <Policies>
+            <TimeBasedTriggeringPolicy/>
+        </Policies>
+        <PatternLayout>
+            <pattern>%d{dd MMM yyyy HH:mm:ss,SSS} %threadId %-5p %c{1} line-%L -%m%n</pattern>
+        </PatternLayout>
+    </RollingRandomAccessFile>
+</Appenders>

@@ -1,0 +1,5 @@
+rootProject.name = 'heartfulness-starter'
+include 'heartfulness-starter-server'
+include 'heartfulness-starter-api'
+include 'heartfulness-starter-client'
+

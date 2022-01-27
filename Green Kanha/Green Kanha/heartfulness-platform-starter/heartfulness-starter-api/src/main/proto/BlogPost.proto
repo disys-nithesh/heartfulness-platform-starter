@@ -1,0 +1,33 @@
+syntax = "proto3";
+
+import "google/protobuf/wrappers.proto";
+
+option java_package = "org.heartfulness.starter.interfaces.grpc";
+
+enum BlogPostType {
+    NEWS = 0;
+    MEDIA = 1;
+    ENTERTAINMENT = 2;
+}
+
+message BlogPost {
+    string postId = 1;
+    string postText = 2;
+    int32 postNo = 3;
+    bool isPublished = 4;
+    string coverPictureUrl = 5;
+    BlogPostType postType = 6;
+}
+
+message UpdateCoverPictureRequest {
+    string blogPostId = 1;
+    bytes pictureData = 2;
+    string pictureName = 3;
+}
+
+service BlogPostService {
+    rpc addBlogPost (BlogPost) returns (BlogPost);
+    rpc deleteBlogPost (google.protobuf.StringValue) returns (BlogPost);
+    rpc getBlogPost(google.protobuf.StringValue) returns (BlogPost);
+    rpc updateCoverPicture (UpdateCoverPictureRequest) returns (google.protobuf.StringValue);
+}

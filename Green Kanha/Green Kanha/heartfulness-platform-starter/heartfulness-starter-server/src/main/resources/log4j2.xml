@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="DEBUG" xmlns:xi="http://www.w3.org/2001/XInclude">
+
+    <Properties>
+        <Property name="log-path">var/output/logs</Property>
+    </Properties>
+
+    <xi:include href="log4j2-common.xml" />
+
+    <Loggers>
+        <Root level="DEBUG">
+            <AppenderRef ref="APPLICATION"/>
+        </Root>
+        <!-- Since additivity is false, wire logging will not go to the root logger. This prevents
+           wire logging from being interspersed with application logging.
+       -->
+        <Logger name="WIRE" level="TRACE" additivity="false">
+            <appender-ref ref="WIRE" level="TRACE"/>
+        </Logger>
+    </Loggers>
+</Configuration>

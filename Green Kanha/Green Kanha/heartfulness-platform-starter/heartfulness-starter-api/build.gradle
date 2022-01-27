@@ -1,0 +1,51 @@
+apply plugin: 'com.google.protobuf'
+apply plugin: 'maven'
+apply plugin: 'maven-publish'
+
+scmVersion {
+    tag {
+        prefix = 'api'
+    }
+}
+project.version = scmVersion.version
+protobuf {
+    protoc {
+        artifact = 'com.google.protobuf:protoc:3.5.1'
+    }
+
+    plugins {
+        grpc {
+            artifact = "io.grpc:protoc-gen-grpc-java:${grpcVersion}"
+        }
+    }
+
+    generateProtoTasks {
+        all()*.plugins {
+            grpc {}
+        }
+    }
+}
+
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            from components.java
+        }
+    }
+}
+
+publishing {
+    repositories {
+        maven {
+            // change to point to your repo, e.g. http://my.org/repo
+            url 'gcs://buildrepo.whispersmessages.in'
+        }
+    }
+}
+
+dependencies {
+    compile "io.grpc:grpc-stub:${grpcVersion}"
+    compile "io.grpc:grpc-protobuf:${grpcVersion}"
+
+    testCompile "junit:junit:${junitVersion}"
+}

@@ -1,0 +1,79 @@
+plugins {
+    id 'pl.allegro.tech.build.axion-release' version '1.11.0'
+}
+
+scmVersion {
+    // ...
+    checks {
+        uncommittedChanges = true
+        aheadOfRemote = true
+        snapshotDependencies = false
+    }
+}
+
+allprojects {
+    project.version = scmVersion.version
+}
+
+subprojects {
+    group 'org.heartfulness.unifiedplatform'
+    version '1.0-SNAPSHOT'
+
+    buildscript {
+        ext {
+            grpcVersion = '1.10.0'
+            junitVersion = '4.12'
+            springBootVersion = '2.0.2.RELEASE'
+            openCensusVersion = '0.12.2'
+            profileServerVersion = '2018.12.2'
+        }
+        repositories {
+            mavenCentral()
+            maven { url 'http://repo.spring.io/plugins-release' }
+            maven { url "https://plugins.gradle.org/m2/" }
+        }
+
+        dependencies {
+            classpath 'com.google.protobuf:protobuf-gradle-plugin:0.8.5'
+        }
+    }
+
+    apply plugin: 'java'
+    apply plugin: 'idea'
+    apply plugin: 'pl.allegro.tech.build.axion-release'
+
+    sourceSets.main.java.srcDir new File(buildDir, 'generated/source/proto/main/grpc')
+    sourceSets.main.java.srcDir new File(buildDir, 'generated/source/proto/main/java')
+
+    sourceCompatibility = 1.8
+
+    repositories {
+        maven {
+            url 'https://maven-central-asia.storage-download.googleapis.com/repos/central/data/'
+        }
+
+        jcenter()
+
+        maven {
+            url 'https://repo.spring.io/libs-milestone'
+        }
+
+        maven {
+            url 'http://buildrepo.whispersmessages.in'
+        }
+    }
+
+    dependencies {
+
+        compile "io.grpc:grpc-auth:${grpcVersion}"
+        compile "com.google.auth:google-auth-library-credentials:0.9.0"
+        compile "com.google.auth:google-auth-library-oauth2-http:0.9.0"
+
+        compile 'ch.qos.logback:logback-core:1.2.3'
+        compile 'ch.qos.logback:logback-classic:1.2.3'
+        compile 'org.slf4j:slf4j-api:1.7.2'
+        compile 'io.netty:netty-tcnative-boringssl-static:2.0.12.Final'
+
+        testCompile 'junit:junit:4.12'
+    }
+}

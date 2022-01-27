@@ -1,0 +1,17 @@
+steps:
+  - name: gcr.io/cloud-builders/gradle
+    dir: /root
+    entrypoint: bash
+    args:
+      - -c
+      - mkdir .docker &&
+        ln -s $$HOME/.docker/config.json .docker/config.json
+    volumes:
+      - name: user.home
+        path: /root
+  - name: gcr.io/cloud-builders/gradle
+    args:
+      - jib
+    volumes:
+      - name: user.home
+        path: /root
